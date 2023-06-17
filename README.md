@@ -1,10 +1,6 @@
-# EduTams-clothing-store-Admin
-Online Store
-Online Store is a web application that allows users to search for products and view search results. It provides a user-friendly interface for searching and displaying products from an online store.
-
-Features
-Search products: Users can enter search terms in the search bar to find products matching their query.
-Display search results: The application fetches search results and displays them on the page.
+Create new products: Admins can add new products to the store.
+Edit existing products: Admins can update the details of existing products.
+Delete products: Admins can remove products from the store.
 Responsive design: The application is built using Bootstrap, ensuring a responsive layout that adapts to different screen sizes.
 Technologies Used
 HTML: Markup language used for structuring the web pages.
@@ -18,22 +14,25 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/StephenAdeosun/EduTams-clothing-store-Admin
+git clone https://github.com/StephenAdeosun/EduTams-clothing-store-Admin.git
 Open the project directory in your preferred code editor.
 
 Customize the code:
 
-Modify the index.html file to update the layout, header, and search functionality according to your specific requirements.
-Open the index.html file in your web browser to view the Online Store application.
+Modify the index.html file to update the layout, header, and functionality according to your specific requirements.
+Implement server-side code or integrate with a backend service to handle CRUD operations for products.
+Open the index.html file in your web browser to view the Admin Dashboard application.
 
 Usage
-Launch the Online Store application by opening the index.html file in your web browser.
+Launch the Admin Dashboard application by opening the index.html file in your web browser.
 
-Use the search bar to enter keywords related to the products you want to find.
+Use the search functionality to find products based on keywords or specific criteria.
 
-Click the "Search" button or press Enter to perform the search.
+To create a new product, use the "Create" button or a similar interface provided in your application. Fill in the necessary details and save the product.
 
-The search results will be displayed below the search bar, showing the product titles and other relevant information.
+To edit an existing product, navigate to the product details page and click on the "Edit" button or a similar option. Modify the required fields and save the changes.
+
+To delete a product, navigate to the product details page and click on the "Delete" button or a similar option. Confirm the deletion when prompted.
 
 Customize the application further by adding additional features or integrating with other services as per your project requirements.
 
