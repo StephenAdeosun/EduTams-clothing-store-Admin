@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <h1>EduTams</h1>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div id="app" class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="container py-4">
+      <h2>Edit Product</h2>
+      <form @submit.prevent="updateProduct">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input id="title" type="text" class="form-control" v-model="updatedTitle">
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Price:</label>
+          <input id="price" type="number" class="form-control" v-model="updatedPrice">
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image:</label>
+          <input id="image" type="file" class="form-control" @change="handleImageUpload">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Preview:</label>
+          <img :src="uploadedImage" class="img-thumbnail" alt="Product Image" v-if="uploadedImage" style="max-width: 300px;">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        productId: null,
+        product: null,
+        updatedTitle: '',
+        updatedPrice: '',
+        uploadedImage: ''
+      },
+      mounted() {
+        this.productId = window.location.pathname.split('/').pop();
+        fetch(`https://fakestoreapi.com/products/${this.productId}`)
+          .then(response => response.json())
+          .then(data => {
+            this.product = data;
+            this.updatedTitle = this.product.title;
+            this.updatedPrice = this.product.price.toString();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      methods: {
+        updateProduct() {
+          this.product.title = this.updatedTitle;
+          this.product.price = parseFloat(this.updatedPrice);
+          this.product.image = this.uploadedImage;
+
+          // Implement logic to send the updated product details to the server
+          fetch(`https://fakestoreapi.com/products/${this.productId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.product),
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Updated Product:', data);
+              // Handle successful update
+              // Optionally, you can display a success message or redirect the user
+            })
+            .catch(error => {
+              console.log(error);
+              // Handle error
+              // Optionally, you can display an error message to the user
+            });
+        },
+        handleImageUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              this.uploadedImage = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div id="app">
+    <div class="container py-4">
+      <h2>Edit Product</h2>
+      <form @submit.prevent="updateProduct">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input id="title" type="text" class="form-control" v-model="updatedTitle">
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Price:</label>
+          <input id="price" type="number" class="form-control" v-model="updatedPrice">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        productId: null,
+        product: null,
+        updatedTitle: '',
+        updatedPrice: ''
+      },
+      mounted() {
+        this.productId = window.location.pathname.split('/').pop();
+        fetch(`https://fakestoreapi.com/products/${this.productId}`)
+          .then(response => response.json())
+          .then(data => {
+            this.product = data;
+            this.updatedTitle = this.product.title;
+            this.updatedPrice = this.product.price.toString();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      methods: {
+        updateProduct() {
+          this.product.title = this.updatedTitle;
+          this.product.price = parseFloat(this.updatedPrice);
+
+          console.log('Updated Product:', this.product);
+          // Implement logic to send the updated product details to the server
+        }
+      }
+    });
+  </script>
+</body>
+
+</html> -->

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Product</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+  <header>
+    <!-- Header content -->
+  </header>
+
+  <div id="app">
+    <div class="container py-4">
+      <h2>Create Product</h2>
+      <form @submit.prevent="createProduct">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input id="title" type="text" class="form-control" v-model="newProduct.title">
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Price:</label>
+          <input id="price" type="number" class="form-control" v-model="newProduct.price">
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image:</label>
+          <input id="image" type="file" class="form-control" @change="handleImageUpload">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Preview:</label>
+          <img :src="uploadedImage" class="img-thumbnail" alt="Product Image" v-if="uploadedImage" style="max-width: 300px;">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        newProduct: {
+          title: '',
+          price: '',
+          image: ''
+        },
+        uploadedImage: ''
+      },
+      methods: {
+        createProduct() {
+          const formData = new FormData();
+          formData.append('title', this.newProduct.title);
+          formData.append('price', this.newProduct.price);
+          formData.append('image', this.newProduct.image);
+
+          fetch('/api/products', {
+            method: 'POST',
+            body: formData
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('New Product:', data);
+              // Update the product list
+              window.location.href = 'index.html';
+            })
+            .catch(error => {
+              console.error(error);
+              // Handle the error case, such as displaying an error message
+            });
+
+          // Clear the form fields and uploaded image
+          this.newProduct.title = '';
+          this.newProduct.price = '';
+          this.newProduct.image = '';
+          this.uploadedImage = '';
+        },
+        handleImageUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              this.uploadedImage = e.target.result;
+              this.newProduct.image = file;
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
